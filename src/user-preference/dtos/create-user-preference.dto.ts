@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsObject, IsString } from 'class-validator';
+import { FrequencyOptions } from '../user-preference.schema';
 
 export class CreateUserPreferenceDto {
   @ApiProperty({ description: 'Unique ID of the user', example: 'user123' })
@@ -28,7 +29,7 @@ export class CreateUserPreferenceDto {
     marketing: boolean;
     newsletter: boolean;
     updates: boolean;
-    frequency: 'daily' | 'weekly' | 'monthly' | 'never';
+    frequency: FrequencyOptions;
     channels: { email: boolean; sms: boolean; push: boolean };
   };
 

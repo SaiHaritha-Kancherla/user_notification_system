@@ -1,14 +1,15 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 export enum FrequencyOptions {
-  Daily = 'daily',
-  Weekly = 'weekly',
-  Monthly = 'monthly',
-  Never = 'never',
+  daily = 'daily',
+  weekly = 'weekly',
+  monthly = 'monthly',
+  never = 'never',
 }
+
 @Schema({ timestamps: true })
 export class UserPreference extends Document {
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   userId: string;
 
   @Prop({ required: true, unique: true })

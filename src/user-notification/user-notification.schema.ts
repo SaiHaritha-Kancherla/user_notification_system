@@ -2,21 +2,21 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
 export enum NotificationType {
-  Marketing = 'marketing',
-  Newsletter = 'newsletter',
-  Updates = 'updates',
+  marketing = 'marketing',
+  newsletter = 'newsletter',
+  updates = 'updates',
 }
 
 export enum NotificationChannel {
-  Email = 'email',
-  Sms = 'sms',
-  Push = 'push',
+  email = 'email',
+  sms = 'sms',
+  push = 'push',
 }
 
 export enum NotificationStatus {
-  Pending = 'pending',
-  Sent = 'sent',
-  Failed = 'failed',
+  pending = 'pending',
+  sent = 'sent',
+  failed = 'failed',
 }
 
 @Schema({ timestamps: true })

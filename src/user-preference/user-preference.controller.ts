@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Patch,
-  Delete,
-  Param,
-  Body,
-} from '@nestjs/common';
+import { Controller, Post, Patch, Delete, Param, Body } from '@nestjs/common';
 import { UserPreferenceService } from './user-preference.service';
 import { UpdateUserPreferenceDto } from './dtos/update-user-preference.dto';
 import { CreateUserPreferenceDto } from './dtos/create-user-preference.dto';
@@ -16,14 +8,16 @@ export class UserPreferenceController {
   constructor(private readonly userPreferenceService: UserPreferenceService) {}
 
   @Post()
-  async create(@Body() createUserPreferenceDto: CreateUserPreferenceDto) {
+  async createUserPreference(
+    @Body() createUserPreferenceDto: CreateUserPreferenceDto,
+  ) {
     return this.userPreferenceService.create(createUserPreferenceDto);
   }
 
-  @Get(':userId')
-  async findOne(@Param('userId') userId: string) {
-    return this.userPreferenceService.findOne(userId);
-  }
+  // @Get(':userId')
+  // async findOne(@Param('userId') userId: string) {
+  //   // return this.userPreferenceService.findOne(userId);
+  // }
 
   @Patch(':userId')
   async update(

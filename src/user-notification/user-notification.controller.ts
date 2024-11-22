@@ -1,22 +1,25 @@
 import { Controller, Post, Get, Body, Param } from '@nestjs/common';
 
 import { UserNotificationService } from './user-notification.service';
-import { SendUserNotificationDto } from './dtos/send-user-notification.dto';
+import { CreateUserNotificationDto } from './dtos/create-user-notification.dto';
 
 @Controller('user-notifications')
-export class NotificationsController {
+export class UserNotificationsController {
   constructor(
     private readonly userNotificationService: UserNotificationService,
   ) {}
 
-  @Post('send')
-  async send(@Body() sendUserNotificationDto: SendUserNotificationDto) {
-    return this.userNotificationService.send(sendUserNotificationDto);
+  @Post()
+  async createUserNotification(
+    @Body() userNotification: CreateUserNotificationDto,
+  ) {
+    return this.userNotificationService.create(userNotification);
   }
+  // eslint-disable-next-line prettier/prettier
 
   @Get(':userId/logs')
-  async getLogs(@Param('userId') userId: string) {
-    return this.userNotificationService.getLogs(userId);
+  async getUserLogs(@Param('userId') userId: string) {
+    return this.userNotificationService.getUserLogs(userId);
   }
 
   @Get('stats')
