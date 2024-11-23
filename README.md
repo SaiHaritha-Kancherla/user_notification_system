@@ -247,8 +247,11 @@ curl -X POST http://localhost:3000/api/notifications/send \
 ## Get User Preferences By Userid 
 ![image](https://github.com/user-attachments/assets/cb60c882-6712-4735-8598-fab52f1972a6)
 
-## Patch User Preferences By Userid
+## Update User Preferences By Userid
 ![image](https://github.com/user-attachments/assets/d63b9911-a7a8-428a-be58-334586f8d8f3)
+
+## Delete User Preference by User ID 
+![image](https://github.com/user-attachments/assets/f28dc3cf-3307-4de1-8f65-4bf268396415)
 
 ## Get User Notification Logs 
 ![image](https://github.com/user-attachments/assets/a0a13a0c-3ed9-437e-bb49-bc6f2cf97f09)
@@ -260,5 +263,3 @@ curl -X POST http://localhost:3000/api/notifications/send \
 ## Get Notification Statistics like total notifications, success notifications, failed notifications, successRate, breakdown by type , breakdownByChannel
 ![image](https://github.com/user-attachments/assets/cb3b1c91-fd02-4ae5-bc0b-fbb1aecfe53d)
 
-## Delete User Preference by User ID 
-![image](https://github.com/user-attachments/assets/f28dc3cf-3307-4de1-8f65-4bf268396415)
