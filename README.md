@@ -237,7 +237,7 @@ curl -X POST http://localhost:3000/api/notifications/send \
 ## Submission
 
 - **GitHub Repository**: https://github.com/SaiHaritha-Kancherla/user_notification_system
-- **Deployed API URL**: https://user-notification-system.vercel.app/?vercelToolbarCode=Ubeiln49wv0lUBS
+- **Deployed API URL**: https://user-notification-system-ndvqkxzbt-harithas-projects-26b13f88.vercel.app
 - **Example Requests and Responses**: Provided above.
 ### Sample Output Images 
 
