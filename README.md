@@ -28,6 +28,9 @@ This project implements a serverless API for managing user notification preferen
 - **Serverless Deployment**  
   Hosted on Vercel for scalable, serverless execution.
 
+## Implementation Overview 
+User preferences will be saved uniquely in the UserPreferences Collection upon choosing notification type (Marketing, Updates, Newsletters) over notification channel ( SMS, Push, Email) upon chosen frequency(daily, weekly, monthly,  or never). User id against the frequency selected will be entered in a Notification Queue upon saving user preference. Using CRON jobs fetch and send notifications to users upon the frequency and outputting the notification in the notification log.  
+
 ## API Endpoints
 
 ### User Preferences
@@ -236,6 +239,26 @@ curl -X POST http://localhost:3000/api/notifications/send \
 - **GitHub Repository**: https://github.com/SaiHaritha-Kancherla/user_notification_system
 - **Deployed API URL**: https://user-notification-system.vercel.app/?vercelToolbarCode=Ubeiln49wv0lUBS
 - **Example Requests and Responses**: Provided above.
-## Sample Output Images 
+### Sample Output Images 
+
+## Create User Preference
+![image](https://github.com/user-attachments/assets/dfd77787-e03b-46dc-a854-2e01c49e8ff3)
+
+## Get User Preferences By Userid 
+![image](https://github.com/user-attachments/assets/cb60c882-6712-4735-8598-fab52f1972a6)
+
+## Patch User Preferences By Userid
+![image](https://github.com/user-attachments/assets/d63b9911-a7a8-428a-be58-334586f8d8f3)
+
+## Get User Notification Logs 
+![image](https://github.com/user-attachments/assets/a0a13a0c-3ed9-437e-bb49-bc6f2cf97f09)
 
 
+## Send Notification Log to user 
+![image](https://github.com/user-attachments/assets/8e8a59e6-824d-49ec-9d65-a2e28c309449)
+
+## Get Notification Statistics like total notifications, success notifications, failed notifications, successRate, breakdown by type , breakdownByChannel
+![image](https://github.com/user-attachments/assets/cb3b1c91-fd02-4ae5-bc0b-fbb1aecfe53d)
+
+## Delete User Preference by User ID 
+![image](https://github.com/user-attachments/assets/f28dc3cf-3307-4de1-8f65-4bf268396415)
