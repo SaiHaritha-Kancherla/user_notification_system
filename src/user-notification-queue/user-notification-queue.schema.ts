@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { FrequencyOptions } from 'src/user-preference/user-preference.schema';
+import { FrequencyOptions } from '../user-preference/user-preference.schema';
 
 @Schema({ timestamps: true })
 export class UserNotificationQueue extends Document {

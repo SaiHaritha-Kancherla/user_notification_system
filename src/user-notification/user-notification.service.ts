@@ -7,8 +7,16 @@ import {
   UserNotificationLog,
 } from './user-notification.schema';
 import { Model } from 'mongoose';
-import { CreateUserNotificationDto } from './dtos/create-user-notification.dto';
-import { FrequencyOptions } from 'src/user-preference/user-preference.schema';
+import { UserNotificationDto } from './dtos/user-notification.dto';
+import { FrequencyOptions } from '../user-preference/user-preference.schema';
+import { plainToInstance } from 'class-transformer';
+
+interface StatsQuery {
+  type?: string;
+  channel?: string;
+  startDate?: string;
+  endDate?: string;
+}
 
 @Injectable()
 export class UserNotificationService {
@@ -16,21 +24,93 @@ export class UserNotificationService {
     @InjectModel(UserNotificationLog.name)
     private readonly userNotificationLogModel: Model<UserNotificationLog>,
   ) {}
-  async send(sendNotificationDto: any) {
-    // Simulate sending notification
-    return { success: true, data: sendNotificationDto };
-  }
 
   async getUserLogs(userId: string) {
-    return this.userNotificationLogModel.find({ userId }).exec();
+    const userNotificationLogs = await this.userNotificationLogModel
+      .find({ userId })
+      .exec();
+    const userNotificationLogsDTO = plainToInstance(
+      UserNotificationDto,
+      userNotificationLogs,
+      {
+        excludeExtraneousValues: true,
+      },
+    );
+    return { status: true, data: userNotificationLogsDTO };
   }
 
-  async getStats() {
-    return { totalSent: 100 }; // Placeholder
+  async getStats(query: StatsQuery) {
+    const filter: any = {};
+
+    if (query.type) filter.type = query.type;
+    if (query.channel) filter.channel = query.channel;
+    if (query.startDate || query.endDate) {
+      filter.createdAt = {};
+      if (query.startDate) filter.createdAt.$gte = new Date(query.startDate);
+      if (query.endDate) filter.createdAt.$lte = new Date(query.endDate);
+    }
+
+    const totalNotifications =
+      await this.userNotificationLogModel.countDocuments(filter);
+    const successfulNotifications =
+      await this.userNotificationLogModel.countDocuments({
+        ...filter,
+        status: 'SENT',
+      });
+    const failedNotifications = totalNotifications - successfulNotifications;
+
+    const breakdownByType = await this.userNotificationLogModel.aggregate([
+      { $match: filter },
+      {
+        $group: {
+          _id: '$type',
+          total: { $sum: 1 },
+          success: { $sum: { $cond: [{ $eq: ['$status', 'SENT'] }, 1, 0] } },
+        },
+      },
+    ]);
+
+    const breakdownByChannel = await this.userNotificationLogModel.aggregate([
+      { $match: filter },
+      {
+        $group: {
+          _id: '$channel',
+          total: { $sum: 1 },
+          success: { $sum: { $cond: [{ $eq: ['$status', 'SENT'] }, 1, 0] } },
+        },
+      },
+    ]);
+
+    return {
+      totalNotifications,
+      successfulNotifications,
+      failedNotifications,
+      successRate: (
+        (successfulNotifications / totalNotifications) *
+        100
+      ).toFixed(2),
+      breakdownByType,
+      breakdownByChannel,
+    };
   }
 
-  async create(createUserNotificationDto: CreateUserNotificationDto) {
-    return this.userNotificationLogModel.create(createUserNotificationDto);
+  async create(createUserNotificationDto: UserNotificationDto) {
+    try {
+      // Attempt to create a new user notification log
+      const createdUserNotification =
+        await this.userNotificationLogModel.create(createUserNotificationDto);
+
+      // Return the created notification log if successful
+      return createdUserNotification;
+    } catch (error) {
+      // Log the error for debugging purposes
+      console.error('Error while creating user notification log:', error);
+
+      // Optionally, throw a custom error to provide a specific response
+      throw new Error(
+        'There was an error while creating the user notification log.',
+      );
+    }
   }
 
   async sendNotification(
@@ -73,7 +153,7 @@ export class UserNotificationService {
       notificationFailedReason = error;
       notificationMessage = 'Error Occurred in Notifying';
     } finally {
-      const notificationLog: CreateUserNotificationDto = {
+      const notificationLog: UserNotificationDto = {
         userId: userId,
         type: notificationType,
         channel: notificationChannel,

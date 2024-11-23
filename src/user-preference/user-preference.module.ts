@@ -3,7 +3,7 @@ import { UserPreferenceController } from './user-preference.controller';
 import { UserPreferenceService } from './user-preference.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserPreference, UserPreferenceSchema } from './user-preference.schema';
-import { UserNotificationQueueModule } from 'src/user-notification-queue/user-notification-queue.module';
+import { UserNotificationQueueModule } from '../user-notification-queue/user-notification-queue.module';
 
 @Module({
   imports: [

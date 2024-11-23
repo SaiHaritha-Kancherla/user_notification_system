@@ -24,4 +24,15 @@ export class UserNotificationQueueService {
       .find({ frequency: frequency })
       .exec();
   }
+
+  async delete(userId: string): Promise<string> {
+    const deletedUserNotificationEntry =
+      await this.userNotificationQueueModel.findOneAndDelete({
+        userId,
+      });
+    if (!deletedUserNotificationEntry) {
+      return `User notification queue for ${userId} not found`;
+    }
+    return `User notification queue for ${userId} has been deleted successfully`;
+  }
 }
